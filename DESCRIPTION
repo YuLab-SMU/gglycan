@@ -1,0 +1,24 @@
+Package: gglycan
+Title: Plot Glycans using ggplot2
+Version: 0.0.1
+Authors@R: c(
+    person(given = "Guangchuang", family = "Yu", email = "guangchuangyu@gmail.com",   role  = c("aut", "cre"), comment = c(ORCID = "0000-0002-6485-8781")))
+Description: A package to plot glycans following SNFG nomenclature using ggplot2.
+License: Artistic-2.0
+Encoding: UTF-8
+Depends:
+    R (>= 4.1.0)
+Imports: 
+    dplyr,
+    ggplot2,
+    ggtangle (>= 0.1.0),
+    ggstar,
+    ggrepel,
+    igraph,
+    rlang,
+    tidygraph,
+    yulab.utils
+Suggests: 
+    quarto
+VignetteBuilder: quarto
+RoxygenNote: 7.3.3

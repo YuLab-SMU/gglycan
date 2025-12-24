@@ -1,0 +1,143 @@
+---
+title: "Getting Started with gglycan"
+author: "Guangchuang Yu\\
+
+        School of Basic Medical Sciences, Southern Medical University"
+format: html
+vignette: >
+  %\VignetteIndexEntry{Getting Started with gglycan}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+`gglycan` is designed to visualize glycan structures using the `ggplot2` grammar of graphics. It builds upon `ggtangle` for network layout and `ggstar` for standard SNFG (Symbol Nomenclature for Glycans) symbols.
+
+While `gglycan` provides a convenient `geom_glycan()` wrapper, its true power lies in the ability to deconstruct the plot into individual layers (`geom_edge`, `geom_star`, etc.), allowing for complete customization.
+
+## Basic Usage
+
+First, let's look at the standard usage.
+
+```{r setup}
+library(ggplot2)
+library(gglycan)
+library(ggtangle)
+library(ggstar)
+library(ggrepel)
+
+# A complex N-glycan string
+s <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)[Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-6)]Man(b1-4)GlcNAc(b1-4)GlcNAc"
+```
+
+The `gglycan()` function initializes the plot, parsing the IUPAC string into a graph structure and calculating the layout. `geom_glycan()` adds all the standard SNFG elements (edges, labels, and symbols).
+
+```{r basic}
+gglycan(s) + 
+  geom_glycan()
+```
+
+## Deconstructing Layers
+
+`geom_glycan()` is essentially a wrapper that adds the following layers:
+
+1.  `geom_edge()`: The connecting lines.
+2.  `geom_edge_text()`: The linkage information (e.g., $\alpha 1-3$).
+3.  `geom_star()`: The SNFG monosaccharide symbols.
+4.  `scale_fill_manual()` & `scale_starshape_manual()`: The SNFG color and shape mappings.
+
+You can compose these layers manually to have full control over the aesthetics.
+
+### 1. The Base Plot
+
+`gglycan(s)` returns a `ggplot` object with the data and layout. Note that without layers, it's empty.
+
+```{r base}
+p <- gglycan(s)
+# p + geom_blank() # Empty canvas
+```
+
+### 2. Customizing Edges
+
+Let's say we want dashed blue lines for edges instead of the standard solid black.
+
+```{r edges}
+p + geom_edge(color = "steelblue", linetype = "dashed", linewidth = 0.8)
+```
+
+### 3. Customizing Edge Labels
+
+We can adjust the color, size, and position of the linkage labels.
+
+```{r edge-labels}
+p + 
+  geom_edge(color = "grey80") +
+  geom_edge_text(aes(label = label), color = "darkred", size = 3, vjust = -0.2)
+```
+
+### 4. Customizing Nodes (SNFG Symbols)
+
+The nodes are drawn using `geom_star()` from the `ggstar` package. The plot data comes with `snfg_starshape` and `snfg_fill` columns pre-calculated.
+
+We need to use `I()` (identity) to use these values directly, or set up manual scales.
+
+```{r nodes}
+p + 
+  geom_edge(color = "grey80") +
+  geom_star(aes(x = x, y = y, starshape = I(snfg_starshape), fill = I(snfg_fill)), size = 5)
+```
+
+### 5. Adding Text Labels
+
+If you want to show the text names of the monosaccharides (e.g., "Neu5Ac"), you can add a `geom_text` or `geom_text_repel` layer.
+
+```{r text-labels}
+p + 
+  geom_edge(color = "grey80") +
+  geom_star(aes(x = x, y = y, starshape = I(snfg_starshape), fill = I(snfg_fill)), size = 4) +
+  geom_text_repel(aes(label = label), size = 2.5, box.padding = 0.3)
+```
+
+## Putting It All Together: A Highly Customized Plot
+
+Here is an example combining all these techniques. We will:
+*   Use a "right" growth direction.
+*   Use thick, light-grey edges.
+*   Color linkage labels in blue.
+*   Add node labels.
+*   Customize the theme.
+
+```{r customized}
+gglycan(s, direction = "right", length = 1.5) +
+  # Custom Edges
+  geom_edge(color = "grey70", linewidth = 1) +
+  
+  # Custom Linkage Labels
+  geom_edge_text(aes(label = label), color = "steelblue", size = 3.5, fontface = "bold") +
+  
+  # Standard SNFG Nodes
+  geom_star(aes(x = x, y = y, starshape = I(snfg_starshape), fill = I(snfg_fill)), size = 5) +
+  
+  # Node Text Labels
+  geom_text_repel(aes(label = label), size = 3, color = "black", bg.color = "white", bg.r = 0.15) +
+  
+  # Theme
+  theme_void() +
+  ggtitle("Customized Glycan Plot")
+```
+
+## Motif Highlighting
+
+`gglycan` also supports motif highlighting. This functionality modifies the `alpha` attribute of the graph data.
+
+```{r motif}
+motif <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc"
+
+# By default, gglycan() handles the alpha mapping if you use geom_glycan()
+# But manually, we map alpha:
+gglycan(s, motif = motif) +
+  geom_edge(aes(alpha = I(alpha)), linewidth = 1) +
+  geom_edge_text(aes(label = label, alpha = I(alpha))) +
+  geom_star(aes(x = x, y = y, starshape = I(snfg_starshape), fill = I(snfg_fill), alpha = I(alpha)), size = 5)
+```
