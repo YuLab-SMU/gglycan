@@ -36,28 +36,6 @@ gglycan <- function(data, mapping = aes(), layout = ggtangle::layout_fishbone, d
     ig <- igraph::as.igraph(data)
   }
   
-  # Ensure graph is undirected for correct layout if fishbone
-  # Fishbone layout usually expects directed (Child -> Parent) or specific tree structure?
-  # Actually layout_fishbone uses in/out degree to find root.
-  # If we make it undirected, layout_fishbone might break if it relies on direction.
-  # But user requested "default is undirected".
-  # ggtangle usually handles undirected graphs.
-  # If we convert to undirected, we lose root info unless we assume node 1 is root.
-  # However, visual appearance (edges) shouldn't have arrows if undirected?
-  # Or arrows are okay but underlying graph structure for plotting?
-  
-  # Let's keep it directed for layout calculation (to find root and flow),
-  # but maybe the plotting layer treats it as undirected?
-  # Wait, user said "Plot default is undirected".
-  # This usually means geom_edge shouldn't have arrows, or the graph object itself is undirected.
-  
-  # If we change graph to undirected, layout_fishbone (which uses degree(mode="out")) will fail to find root.
-  # So we must keep it directed for layout.
-  # But for plotting, we can hide arrows.
-  
-  # Also, user wants alpha constant (no legend).
-  # We can achieve this by using I(alpha) in aes() or scale_alpha_identity().
-  
   # Format edge labels (a/b -> alpha/beta)
   # Check if edges have labels
   if ("label" %in% igraph::edge_attr_names(ig)) {
