@@ -7,7 +7,7 @@
 match_snfg_style(graph)
 }
 \arguments{
-\item{graph}{A `tbl_graph` or `igraph` object.}
+\item{graph}{A `igraph` object.}
 }
 \value{
 A graph object with additional columns: `snfg_shape` (numeric starshape) and `snfg_fill` (color).

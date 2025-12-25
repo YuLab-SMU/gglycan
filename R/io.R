@@ -5,15 +5,15 @@
 #'
 #' @param x A character string representing the glycan structure.
 #' @param format The format of the string. Currently only "iupac" is supported.
-#' @return A `tbl_graph` object representing the glycan structure.
-#' @importFrom tidygraph tbl_graph
+#' @return A `igraph` object representing the glycan structure.
+#' @importFrom igraph graph_from_data_frame
 #' @export
 read_glycan <- function(x, format = "iupac") {
   format <- match.arg(format, c("iupac"))
   
   if (format == "iupac") {
     parsed <- parse_iupac_string(x)
-    gr <- tidygraph::tbl_graph(nodes = parsed$nodes, edges = parsed$edges)
+    gr <- igraph::graph_from_data_frame(d = parsed$edges, vertices = parsed$nodes)
     return(gr)
   }
 }

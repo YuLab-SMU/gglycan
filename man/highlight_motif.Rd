@@ -7,7 +7,7 @@
 highlight_motif(graph, motif_str)
 }
 \arguments{
-\item{graph}{The main glycan graph (igraph/tbl_graph).}
+\item{graph}{The main glycan graph (igraph).}
 
 \item{motif_str}{The motif string (IUPAC format).}
 }

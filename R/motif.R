@@ -2,11 +2,10 @@
 #'
 #' Finds occurrences of a motif subsequence in the main glycan graph and marks them.
 #'
-#' @param graph The main glycan graph (igraph/tbl_graph).
+#' @param graph The main glycan graph (igraph).
 #' @param motif_str The motif string (IUPAC format).
 #' @return A graph with an added `alpha` vertex attribute (1 for motif, 0.4 for others).
 #' @importFrom igraph subgraph_isomorphisms vertex_attr edge_attr V E
-#' @importFrom tidygraph as_tbl_graph activate mutate
 #' @export
 highlight_motif <- function(graph, motif_str) {
   if (is.null(motif_str)) {
@@ -20,8 +19,17 @@ highlight_motif <- function(graph, motif_str) {
   motif_graph <- read_glycan(motif_str)
   
   # Convert to igraph
-  g <- igraph::as.igraph(graph)
-  p <- igraph::as.igraph(motif_graph)
+  if (inherits(graph, "igraph")) {
+    g <- graph
+  } else {
+    g <- igraph::as.igraph(graph)
+  }
+  
+  if (inherits(motif_graph, "igraph")) {
+    p <- motif_graph
+  } else {
+    p <- igraph::as.igraph(motif_graph)
+  }
   
   # Ensure graphs are valid
   if (igraph::vcount(p) > igraph::vcount(g)) {

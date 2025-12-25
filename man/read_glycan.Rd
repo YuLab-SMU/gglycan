@@ -12,7 +12,7 @@ read_glycan(x, format = "iupac")
 \item{format}{The format of the string. Currently only "iupac" is supported.}
 }
 \value{
-A `tbl_graph` object representing the glycan structure.
+A `igraph` object representing the glycan structure.
 }
 \description{
 Parses a glycan string (IUPAC condensed format) and returns a graph object.

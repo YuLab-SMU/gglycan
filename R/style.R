@@ -2,16 +2,19 @@
 #'
 #' Maps glycan node labels to SNFG shapes and colors.
 #'
-#' @param graph A `tbl_graph` or `igraph` object.
+#' @param graph A `igraph` object.
 #' @return A graph object with additional columns: `snfg_shape` (numeric starshape) and `snfg_fill` (color).
 #' @importFrom dplyr mutate case_when
-#' @importFrom tidygraph as_tbl_graph activate
+#' @importFrom igraph as.igraph set_vertex_attr as_data_frame
 #' @export
 match_snfg_style <- function(graph) {
-  graph <- tidygraph::as_tbl_graph(graph)
+  if (!inherits(graph, "igraph")) {
+    graph <- igraph::as.igraph(graph)
+  }
   
-  graph <- graph |>
-    tidygraph::activate("nodes") |>
+  nodes <- igraph::as_data_frame(graph, what = "vertices")
+  
+  nodes <- nodes |>
     dplyr::mutate(
       base_type = case_when(
         grepl("GlcNAc", label) ~ "GlcNAc",
@@ -70,6 +73,10 @@ match_snfg_style <- function(graph) {
         TRUE ~ "white"
       )
     )
+  
+  graph <- igraph::set_vertex_attr(graph, "base_type", value = nodes$base_type)
+  graph <- igraph::set_vertex_attr(graph, "snfg_starshape", value = nodes$snfg_starshape)
+  graph <- igraph::set_vertex_attr(graph, "snfg_fill", value = nodes$snfg_fill)
   
   return(graph)
 }
