@@ -1,9 +1,11 @@
 Package: gglycan
-Title: Plot Glycans using ggplot2
+Title: Plot Glycans using 'ggplot2'
 Version: 0.0.2
 Authors@R: c(
     person(given = "Guangchuang", family = "Yu", email = "guangchuangyu@gmail.com",   role  = c("aut", "cre"), comment = c(ORCID = "0000-0002-6485-8781")))
-Description: A package to plot glycans following SNFG nomenclature using ggplot2.
+Description: Plot glycans following the Symbol Nomenclature for Glycans (SNFG) 
+    using 'ggplot2'. SNFG provides a standardized visual representation of 
+    glycan structures. 
 License: Artistic-2.0
 Encoding: UTF-8
 Depends:

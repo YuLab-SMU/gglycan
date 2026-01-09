@@ -2,3 +2,7 @@ ggtangle
 Makefile
 figures/
 README.qmd
+^CRAN-SUBMISSION$
+.vscode
+CRAN-SUBMISSION
+figures
