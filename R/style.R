@@ -2,11 +2,15 @@
 #'
 #' Maps glycan node labels to SNFG shapes and colors.
 #'
-#' @param graph A `igraph` object.
-#' @return A graph object with additional columns: `snfg_shape` (numeric starshape) and `snfg_fill` (color).
+#' @param graph An `igraph` object.
+#' @return An `igraph` object with additional vertex attributes: `snfg_shape` (numeric starshape) and `snfg_fill` (color).
 #' @importFrom dplyr mutate case_when
 #' @importFrom igraph as.igraph set_vertex_attr as_data_frame
 #' @export
+#' @examples
+#' s <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)Man(b1-4)GlcNAc(b1-4)GlcNAc"
+#' g <- read_glycan(s)
+#' g <- match_snfg_style(g)
 match_snfg_style <- function(graph) {
   if (!inherits(graph, "igraph")) {
     graph <- igraph::as.igraph(graph)
@@ -88,9 +92,14 @@ match_snfg_style <- function(graph) {
 #' @param labels A character vector of linkage labels.
 #' @return A character vector with Greek letters.
 #' @export
+#' @examples
+#' labels <- c("a1-3", "b1-4")
+#' format_linkage_label(labels)
 format_linkage_label <- function(labels) {
   if (is.null(labels)) return(labels)
-  labels <- sub("^a\\d-", " \u03b1", labels)
-  labels <- sub("^b\\d-", " \u03b2", labels)
+  # Use unicode code points to avoid encoding issues on Windows
+  # \u03b1 is alpha, \u03b2 is beta
+  labels <- sub("^a(\\d)-", " \u03b1\\1-", labels)
+  labels <- sub("^b(\\d)-", " \u03b2\\1-", labels)
   return(labels)
 }

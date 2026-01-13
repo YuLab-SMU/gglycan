@@ -10,8 +10,11 @@ get_hl_alpha(default = 0.4)
 \item{default}{Default value if not set (0.4).}
 }
 \value{
-Numeric alpha value.
+A numeric value representing the alpha level.
 }
 \description{
 Gets the current alpha value for motif highlighting.
+}
+\examples{
+get_hl_alpha()
 }

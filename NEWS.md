@@ -1,3 +1,7 @@
+# gglycan 0.0.3
+
+- Improve documentation by adding `@return` tags and executable examples to all exported functions. (2026-01-13, Tue)
+
 # gglycan 0.0.2 (2025-12-25, Thu)
 
 - Remove `tidygraph` dependency. 
@@ -5,7 +9,7 @@
 
 # gglycan 0.0.1 (2025-12-24, Wed)
 
-- `gglycan()` to create a ggplot2 object for glycan plotting. 
+- `gglycan()` to create a `ggplot` object for glycan plotting. 
 - `geom_glycan()` to plot glycans using ggplot2.
 - `read_glycan()` to parse IUPAC condensed strings into graph objects.
 - `highlight_motif()` to highlight specific glycan substructures (motifs).

@@ -12,8 +12,12 @@ read_glycan(x, format = "iupac")
 \item{format}{The format of the string. Currently only "iupac" is supported.}
 }
 \value{
-A `igraph` object representing the glycan structure.
+An `igraph` object representing the glycan structure.
 }
 \description{
 Parses a glycan string (IUPAC condensed format) and returns a graph object.
+}
+\examples{
+s <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)Man(b1-4)GlcNAc(b1-4)GlcNAc"
+g <- read_glycan(s)
 }

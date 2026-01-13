@@ -15,3 +15,7 @@ A character vector with Greek letters.
 \description{
 Converts 'a'/'b' to Greek letters alpha/beta.
 }
+\examples{
+labels <- c("a1-3", "b1-4")
+format_linkage_label(labels)
+}

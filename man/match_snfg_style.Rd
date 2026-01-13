@@ -7,11 +7,16 @@
 match_snfg_style(graph)
 }
 \arguments{
-\item{graph}{A `igraph` object.}
+\item{graph}{An `igraph` object.}
 }
 \value{
-A graph object with additional columns: `snfg_shape` (numeric starshape) and `snfg_fill` (color).
+An `igraph` object with additional vertex attributes: `snfg_shape` (numeric starshape) and `snfg_fill` (color).
 }
 \description{
 Maps glycan node labels to SNFG shapes and colors.
+}
+\examples{
+s <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)Man(b1-4)GlcNAc(b1-4)GlcNAc"
+g <- read_glycan(s)
+g <- match_snfg_style(g)
 }

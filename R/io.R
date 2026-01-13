@@ -5,9 +5,12 @@
 #'
 #' @param x A character string representing the glycan structure.
 #' @param format The format of the string. Currently only "iupac" is supported.
-#' @return A `igraph` object representing the glycan structure.
+#' @return An `igraph` object representing the glycan structure.
 #' @importFrom igraph graph_from_data_frame
 #' @export
+#' @examples
+#' s <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)Man(b1-4)GlcNAc(b1-4)GlcNAc"
+#' g <- read_glycan(s)
 read_glycan <- function(x, format = "iupac") {
   format <- match.arg(format, c("iupac"))
   

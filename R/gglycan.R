@@ -10,12 +10,17 @@
 #' @param angle_sep The angle separation for branches in degrees. Default is 30.
 #' @param motif A motif string (IUPAC format) to highlight in the structure. Default is NULL.
 #' @param ... Additional arguments passed to `ggplot`.
-#' @return A ggplot object.
+#' @return A `ggplot` object.
 #' @import ggplot2
 #' @import ggtangle
 #' @import ggstar
 #' @importFrom igraph as.igraph
 #' @export
+#' @examples
+#' s <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)Man(b1-4)GlcNAc(b1-4)GlcNAc"
+#' \dontrun{
+#' gglycan(s) + geom_glycan()
+#' }
 gglycan <- function(data, mapping = aes(), layout = ggtangle::layout_fishbone, direction = "left", length = 1, angle_sep = 30, motif = NULL, ...) {
   # Handle input type: string -> graph
   if (is.character(data)) {
@@ -91,12 +96,18 @@ gglycan <- function(data, mapping = aes(), layout = ggtangle::layout_fishbone, d
 #' @param label_size Size of the node labels.
 #' @param edge_label_size Size of the edge labels (linkage).
 #' @param ... Additional arguments (currently unused).
+#' @return A list of `ggplot2` layers.
 #' @import ggplot2
 #' @import ggtangle
 #' @import ggstar
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom rlang sym
 #' @export
+#' @examples
+#' s <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)Man(b1-4)GlcNAc(b1-4)GlcNAc"
+#' \dontrun{
+#' gglycan(s) + geom_glycan()
+#' }
 geom_glycan <- function(edge_color = "black", 
                         edge_width = 0.5, 
                         arrow_length = unit(2, "mm"),

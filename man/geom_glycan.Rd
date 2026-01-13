@@ -32,6 +32,15 @@ geom_glycan(
 
 \item{...}{Additional arguments (currently unused).}
 }
+\value{
+A list of `ggplot2` layers.
+}
 \description{
 A convenient wrapper to add edges, edge labels, and SNFG nodes to a glycan plot.
+}
+\examples{
+s <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)Man(b1-4)GlcNAc(b1-4)GlcNAc"
+\dontrun{
+gglycan(s) + geom_glycan()
+}
 }

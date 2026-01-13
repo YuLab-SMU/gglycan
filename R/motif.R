@@ -2,12 +2,21 @@
 #'
 #' Finds occurrences of a motif subsequence in the main glycan graph and marks them.
 #'
-#' @param graph The main glycan graph (igraph).
+#' @param graph The main glycan graph (an `igraph` object).
 #' @param motif_str The motif string (IUPAC format).
-#' @return A graph with an added `alpha` vertex attribute (1 for motif, 0.4 for others).
+#' @return An `igraph` object with an added `alpha` vertex attribute (1 for motif, 0.4 for others).
 #' @importFrom igraph subgraph_isomorphisms vertex_attr edge_attr V E
 #' @export
+#' @examples
+#' s <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)Man(b1-4)GlcNAc(b1-4)GlcNAc"
+#' g <- read_glycan(s)
+#' g <- highlight_motif(g, "Neu5Ac(a2-3)Gal(b1-4)GlcNAc")
 highlight_motif <- function(graph, motif_str) {
+  # Ensure graph is igraph
+  if (!inherits(graph, "igraph")) {
+    graph <- igraph::as.igraph(graph)
+  }
+
   if (is.null(motif_str)) {
      # If no motif, everything is alpha 1
      graph <- igraph::set_vertex_attr(graph, "alpha", value = 1)
@@ -18,12 +27,8 @@ highlight_motif <- function(graph, motif_str) {
   # Parse motif
   motif_graph <- read_glycan(motif_str)
   
-  # Convert to igraph
-  if (inherits(graph, "igraph")) {
-    g <- graph
-  } else {
-    g <- igraph::as.igraph(graph)
-  }
+  # Use the igraph object
+  g <- graph
   
   if (inherits(motif_graph, "igraph")) {
     p <- motif_graph
@@ -173,8 +178,11 @@ highlight_motif <- function(graph, motif_str) {
 #' Sets the alpha value for motif highlighting.
 #'
 #' @param value Numeric value for alpha (default 0.4).
+#' @return No return value, called for side effects.
 #' @importFrom yulab.utils update_cache_item
 #' @export
+#' @examples
+#' set_hl_alpha(0.5)
 set_hl_alpha <- function(value = 0.4) {
    update_cache_item('gglycan', list(highlight_motif_alpha = value))
 }
@@ -184,9 +192,11 @@ set_hl_alpha <- function(value = 0.4) {
 #' Gets the current alpha value for motif highlighting.
 #'
 #' @param default Default value if not set (0.4).
-#' @return Numeric alpha value.
+#' @return A numeric value representing the alpha level.
 #' @importFrom yulab.utils get_cache_item
 #' @export
+#' @examples
+#' get_hl_alpha()
 get_hl_alpha <- function(default = 0.4) {
    x <- get_cache_item('gglycan')[["highlight_motif_alpha"]]
    if (is.null(x)) {

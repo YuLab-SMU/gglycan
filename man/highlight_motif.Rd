@@ -7,13 +7,18 @@
 highlight_motif(graph, motif_str)
 }
 \arguments{
-\item{graph}{The main glycan graph (igraph).}
+\item{graph}{The main glycan graph (an `igraph` object).}
 
 \item{motif_str}{The motif string (IUPAC format).}
 }
 \value{
-A graph with an added `alpha` vertex attribute (1 for motif, 0.4 for others).
+An `igraph` object with an added `alpha` vertex attribute (1 for motif, 0.4 for others).
 }
 \description{
 Finds occurrences of a motif subsequence in the main glycan graph and marks them.
+}
+\examples{
+s <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)Man(b1-4)GlcNAc(b1-4)GlcNAc"
+g <- read_glycan(s)
+g <- highlight_motif(g, "Neu5Ac(a2-3)Gal(b1-4)GlcNAc")
 }

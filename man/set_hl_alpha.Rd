@@ -9,6 +9,12 @@ set_hl_alpha(value = 0.4)
 \arguments{
 \item{value}{Numeric value for alpha (default 0.4).}
 }
+\value{
+No return value, called for side effects.
+}
 \description{
 Sets the alpha value for motif highlighting.
+}
+\examples{
+set_hl_alpha(0.5)
 }

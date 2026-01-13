@@ -33,8 +33,14 @@ gglycan(
 \item{...}{Additional arguments passed to `ggplot`.}
 }
 \value{
-A ggplot object.
+A `ggplot` object.
 }
 \description{
 Visualizes a glycan structure using ggplot2 and ggtangle.
+}
+\examples{
+s <- "Neu5Ac(a2-3)Gal(b1-4)GlcNAc(b1-2)Man(a1-3)Man(b1-4)GlcNAc(b1-4)GlcNAc"
+\dontrun{
+gglycan(s) + geom_glycan()
+}
 }
